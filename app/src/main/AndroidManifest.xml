@@ -22,7 +22,9 @@
         <activity android:name=".SearchActivity_2"/>
         <activity android:name=".RegistrationActivity"/>
         <activity android:name=".MypageActivity"/>
-        <activity android:name=".GoogleSignInActivity"/>
+        <activity android:name=".SignInActivity"/>
+        <activity android:name=".ReviewlistActivity"/>
+        <activity android:name=".WishlistActivity"/>
     </application>
 
 </manifest>

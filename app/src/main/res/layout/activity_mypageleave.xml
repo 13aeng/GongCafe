@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MypageleaveActivity">
+
+    <Button
+        android:id="@+id/login_btn11"
+        android:layout_width="118dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="145dp"
+        android:layout_marginTop="210dp"
+        android:background="@null"
+        android:fontFamily="@font/robotolight"
+        android:gravity="left"
+        android:text="취소하기"
+        android:textColor="#000000"
+        android:textColorLink="#009688"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view16" />
+
+    <Button
+        android:id="@+id/login_btn12"
+        android:layout_width="118dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="144dp"
+        android:layout_marginTop="48dp"
+        android:background="@null"
+        android:fontFamily="@font/robotolight"
+        android:gravity="left"
+        android:text="회원탈퇴하기"
+        android:textColor="#000000"
+        android:textColorLink="#009688"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_btn11" />
+
+    <View
+        android:id="@+id/view16"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="20dp"
+        android:background="#939598"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="23dp"
+        android:fontFamily="@font/robotolight"
+        android:text="회원탈퇴"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        app:layout_constraintStart_toEndOf="@+id/imageButton4"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="40dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="#00FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="?attr/actionModeCloseDrawable" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

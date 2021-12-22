@@ -26,7 +26,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class GoogleSignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
+public class SignInActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
 
     private static final int RC_SIGN_IN = 9001;
 
@@ -89,7 +89,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                         if (!task.isSuccessful()) {
 
                         } else {
-                            Toast.makeText(GoogleSignInActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignInActivity.this, "회원가입 성공", Toast.LENGTH_SHORT).show();
                         }
 
                     }
@@ -124,7 +124,7 @@ public class GoogleSignInActivity extends AppCompatActivity implements GoogleApi
                     if (!task.isSuccessful()) {
 
                     }else {
-                        Toast.makeText(GoogleSignInActivity.this, "FireBase아이디 생성이 완료 되었습니다", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInActivity.this, "FireBase아이디 생성이 완료 되었습니다", Toast.LENGTH_SHORT).show();
                     }
 
                 });

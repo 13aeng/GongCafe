@@ -40,7 +40,7 @@ public class SearchActivity extends AppCompatActivity implements ItemAdapter.onI
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL); //밑줄
         search_recyclerView.addItemDecoration(dividerItemDecoration);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("images");
+        DatabaseReference databaseReference = database.getReference("Cafe");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override

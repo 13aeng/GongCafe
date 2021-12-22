@@ -1,6 +1,8 @@
 package kr.ac.mokwon.gongcafe;
 
 import android.Manifest;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -11,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.CursorLoader;
 
@@ -22,6 +27,10 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -61,7 +70,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         pictureAttach.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
             startActivityForResult(intent, GALLERY_CODE);
         });
 
@@ -74,32 +83,80 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_CODE) {
 
-            imagePath = getPath(data.getData());
-            File f = new File(imagePath);
-            imageView.setImageURI(Uri.fromFile(f));
+//            imagePath = getPath(data.getData());
+//            File f = new File(imagePath);
+//            imageView.setImageURI(Uri.fromFile(f));
 
+            Uri uri = null;
+            if(data != null){
+                uri = data.getData();
+            }
+            if(uri != null){
+                imageView.setImageURI(uri);
+                imagePath = createCopyAndReturnRealPath(this,uri);
+
+                new AlertDialog.Builder(this).setMessage(uri.toString()+"\n"+imagePath).create().show();
+            }
         }
     }
-    public String getPath(Uri uri){
 
-        String [] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader cursorLoader = new CursorLoader(this,uri,proj,null,null,null);
+    @Nullable
+    public static String createCopyAndReturnRealPath(@NonNull Context context, @NonNull Uri uri) {
+        final ContentResolver contentResolver = context.getContentResolver();
 
-        Cursor cursor = cursorLoader.loadInBackground();
-        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        if (contentResolver == null)
+            return null;
 
-        cursor.moveToFirst();
+        // 파일 경로를 만듬
+        String filePath = context.getApplicationInfo().dataDir + File.separator
+                + System.currentTimeMillis();
+        File file = new File(filePath);
+        try {
+            // 매개변수로 받은 uri 를 통해  이미지에 필요한 데이터를 불러 들인다.
 
-        return cursor.getString(index);
+            InputStream inputStream = contentResolver.openInputStream(uri);
+            if (inputStream == null)
+                return null;
+            // 이미지 데이터를 다시 내보내면서 file 객체에  만들었던 경로를 이용한다.
 
+            OutputStream outputStream = new FileOutputStream(file);
+            byte[] buf = new byte[1024];
+            int len;
+            while ((len = inputStream.read(buf)) > 0)
+                outputStream.write(buf, 0, len);
+            outputStream.close();
+
+            inputStream.close();
+
+        } catch (IOException ignore) {
+            return null;
+        }
+
+        return file.getAbsolutePath();
     }
+
+
+//        public String getPath(Uri uri, ContentResolver contentResolver){
+
+//        String [] proj = {MediaStore.Images.Media.DATA};
+//        CursorLoader cursorLoader = new CursorLoader(this,uri,proj,null,null,null);
+//
+//        Cursor cursor = cursorLoader.loadInBackground();
+//        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//
+//        cursor.moveToFirst();
+//
+//        return cursor.getString(index);
+
+
+//    }
 
     private void upload(String uri){
         StorageReference storageRef = storage.getReferenceFromUrl("gs://gong-cafe.appspot.com");
 
 
         Uri file = Uri.fromFile(new File(uri));
-        StorageReference riversRef = storageRef.child("images/"+file.getLastPathSegment());
+        StorageReference riversRef = storageRef.child("Cafe/"+file.getLastPathSegment());
         UploadTask uploadTask = riversRef.putFile(file);
 
         uploadTask.addOnFailureListener(exception -> {
@@ -117,7 +174,7 @@ public class RegistrationActivity extends AppCompatActivity {
             cafeDTO.uid = auth.getCurrentUser().getUid();
             cafeDTO.userId = auth.getCurrentUser().getEmail();
 
-            database.getReference().child("images").push().setValue(cafeDTO);
+            database.getReference().child("Cafe").push().setValue(cafeDTO);
 
         });
 

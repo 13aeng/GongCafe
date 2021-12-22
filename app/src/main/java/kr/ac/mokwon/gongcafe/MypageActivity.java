@@ -16,7 +16,7 @@ public class MypageActivity extends AppCompatActivity {
     }
 
     public void myPageLoginListener(View target){
-        Intent intent = new Intent(getApplicationContext(), GoogleSignInActivity.class);
+        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
         startActivity(intent);
     }
     
