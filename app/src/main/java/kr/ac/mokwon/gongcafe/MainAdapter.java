@@ -34,6 +34,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.CustomViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MainAdapter.CustomViewHolder holder, int position) {
+
         Glide.with(holder.imageView_main).load(arrayList.get(position).getImageUrl()).into(holder.imageView_main);
         holder.textView1.setText(arrayList.get(position).getCafeName());
         holder.textView2.setText(arrayList.get(position).getInfo());
