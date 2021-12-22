@@ -61,7 +61,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
         pictureAttach.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
-            intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+            intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
             startActivityForResult(intent, GALLERY_CODE);
         });
 
