@@ -19,6 +19,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.content.CursorLoader;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
@@ -63,10 +65,10 @@ public class RegistrationActivity extends AppCompatActivity {
         cafeRegist = findViewById(R.id.cafeRegist_btn);
         pictureAttach = findViewById(R.id.pictureAttach_btn);
 
-        /*권한*/
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
-        }
+//        /*권한*/
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},0);
+//        }
 
         pictureAttach.setOnClickListener(view -> {
             Intent intent = new Intent(Intent.ACTION_PICK);
@@ -82,10 +84,6 @@ public class RegistrationActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == GALLERY_CODE) {
-
-//            imagePath = getPath(data.getData());
-//            File f = new File(imagePath);
-//            imageView.setImageURI(Uri.fromFile(f));
 
             Uri uri = null;
             if(data != null){
@@ -135,22 +133,6 @@ public class RegistrationActivity extends AppCompatActivity {
         return file.getAbsolutePath();
     }
 
-
-//        public String getPath(Uri uri, ContentResolver contentResolver){
-
-//        String [] proj = {MediaStore.Images.Media.DATA};
-//        CursorLoader cursorLoader = new CursorLoader(this,uri,proj,null,null,null);
-//
-//        Cursor cursor = cursorLoader.loadInBackground();
-//        int index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-//
-//        cursor.moveToFirst();
-//
-//        return cursor.getString(index);
-
-
-//    }
-
     private void upload(String uri){
         StorageReference storageRef = storage.getReferenceFromUrl("gs://gong-cafe.appspot.com");
 
@@ -162,8 +144,7 @@ public class RegistrationActivity extends AppCompatActivity {
         uploadTask.addOnFailureListener(exception -> {
             // Handle unsuccessful uploads
         }).addOnSuccessListener(taskSnapshot -> {
-            @SuppressWarnings("VisibleForTests")
-            Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl();
+            Uri downloadUrl = taskSnapshot.getUploadSessionUri();
 
 
             CafeDTO cafeDTO = new CafeDTO();
@@ -175,7 +156,6 @@ public class RegistrationActivity extends AppCompatActivity {
             cafeDTO.userId = auth.getCurrentUser().getEmail();
 
             database.getReference().child("Cafe").push().setValue(cafeDTO);
-
         });
 
     }
