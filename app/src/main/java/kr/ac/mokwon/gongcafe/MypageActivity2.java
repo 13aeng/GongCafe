@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class MypageActivity extends AppCompatActivity {
+public class MypageActivity2 extends AppCompatActivity {
     Button b;
     Button b2;
     Button b3;
@@ -28,21 +28,21 @@ public class MypageActivity extends AppCompatActivity {
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i=new Intent(MypageActivity.this, Mypageinquiry.class);
+                Intent i=new Intent(MypageActivity2.this, Mypageinquiry.class);
                 startActivity(i);
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i2=new Intent(MypageActivity.this, MypagenoticeActivity.class);
+                Intent i2=new Intent(MypageActivity2.this, MypagenoticeActivity.class);
                 startActivity(i2);
             }
         });
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i3=new Intent(MypageActivity.this, MypageleaveActivity.class);
+                Intent i3=new Intent(MypageActivity2.this, MypageleaveActivity.class);
                 startActivity(i3);
             }
         });
