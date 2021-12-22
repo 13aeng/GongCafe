@@ -67,7 +67,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.CustomViewHold
                 @Override
                 public void onClick(View v) {
                     intent = new Intent(v.getContext(), SearchActivity_2.class);
-                    //intent.putExtra("images", arrayList.get(pos).getImageUrl());
+                    intent.putExtra("images", arrayList.get(pos).getImageUrl());
                     intent.putExtra("title", arrayList.get(pos).getCafeName());
                     intent.putExtra("description", arrayList.get(pos).getInfo());
                     v.getContext().startActivity(intent);

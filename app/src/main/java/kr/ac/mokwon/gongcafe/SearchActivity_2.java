@@ -12,8 +12,8 @@ public class SearchActivity_2 extends AppCompatActivity {
     ImageView mainImageView;
     TextView title, description;
 
-    String data1, data2;
-    int myImage;
+    String data1, data2, myImage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +29,12 @@ public class SearchActivity_2 extends AppCompatActivity {
     }
 
     private void getData(){
-        if/*(getIntent().hasExtra("images") ||*/
-        (getIntent().hasExtra("title") || getIntent().hasExtra("description"))
+        if(getIntent().hasExtra("images") ||
+        getIntent().hasExtra("title") || getIntent().hasExtra("description"))
         {
             data1 = getIntent().getStringExtra("title");
             data2 = getIntent().getStringExtra("description");
-            /*myImage = getIntent().getIntExtra("images",1);*/
+            myImage = getIntent().getStringExtra("images");
 
         } else{
             Toast.makeText(this,"No data", Toast.LENGTH_SHORT).show();
@@ -46,6 +46,6 @@ public class SearchActivity_2 extends AppCompatActivity {
     private void setData() {
         title.setText(data1);
         description.setText(data2);
-        mainImageView.setImageResource(myImage);
+        //mainImageView.setImageURI(myImage);
     }
 }
