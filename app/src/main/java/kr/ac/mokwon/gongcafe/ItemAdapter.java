@@ -1,6 +1,7 @@
 package kr.ac.mokwon.gongcafe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,92 @@ import java.util.ArrayList;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.CustomViewHolder> /*implements Filterable*/ {
 
+
+    private ArrayList<CafeDTO> arrayList;
+    private Context context;
+    private Intent intent;
+
+    public ItemAdapter(ArrayList<CafeDTO> arrayList, Context context) {
+        this.arrayList = arrayList;
+        this.context = context;
+    }
+
+    private onItemListener mListener;
+
+    public void setOnClickListener(onItemListener listener) {
+        mListener = listener;
+    }
+
+    @NonNull
+    @Override
+    public ItemAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row, parent, false);
+        ItemAdapter.CustomViewHolder holder = new ItemAdapter.CustomViewHolder(view);
+
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ItemAdapter.CustomViewHolder holder, int position) {
+        CafeDTO currentItem = arrayList.get(position);
+        Glide.with(holder.itemView).load(currentItem.getImageUrl()).into(holder.search_image_view);
+        holder.search_text_view1.setText(currentItem.getCafeName());
+        holder.search_text_view2.setText(currentItem.getInfo());
+        if (mListener != null) {
+            final int pos = position;
+            //final ItemModel item = mItems.get(viewHolder.getAdapterPosition());
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    intent = new Intent(v.getContext(), SearchActivity_2.class);
+                    //intent.putExtra("images", arrayList.get(pos).getImageUrl());
+                    intent.putExtra("title", arrayList.get(pos).getCafeName());
+                    intent.putExtra("description", arrayList.get(pos).getInfo());
+                    v.getContext().startActivity(intent);
+
+                    //mListener.onItemClicked(item);
+                }
+            });
+            //버튼등에도 동일하게 지정할 수 있음 holder.버튼이름.setOnClickListener..형식으로
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        // 삼항 연산자
+        return (arrayList != null ? arrayList.size() : 0);
+    }
+
+    public interface onItemListener {
+        void onItemClicked(int position);
+    }
+
+    public class CustomViewHolder extends RecyclerView.ViewHolder {
+
+        TextView search_text_view1;
+        TextView search_text_view2;
+        ImageView search_image_view;
+
+        public CustomViewHolder(View itemView) {
+            super(itemView);
+            this.search_text_view1 = itemView.findViewById(R.id.search_text_view1);
+            this.search_text_view2 = itemView.findViewById(R.id.search_text_view2);
+            this.search_image_view = itemView.findViewById(R.id.search_image_view);
+
+        }
+
+    }
+}
+
+//        void onItemClicked(int position);
+//        //void onItemClicked(ItemModel model); 모델값을 넘길수 있음
+//        //다른버튼도 정의할 수 있음 onShareButtonClicked(int position);
+//    }
+    //public interface onItemListener {
+    //    void onItemClicked(int position);
+        //void onItemClicked(ItemModel model); 모델값을 넘길수 있음
+        //다른버튼도 정의할 수 있음 onShareButtonClicked(int position);
+    //}
 //    private List<ItemModel> mDataList;
 //    private List<ItemModel> mDataListAll;
 //    private Context context;
@@ -160,49 +247,3 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.CustomViewHold
 //        //다른버튼도 정의할 수 있음 onShareButtonClicked(int position);
 //    }
 //}
-
-    private ArrayList<CafeDTO> arrayList;
-    private Context context;
-
-    public ItemAdapter(ArrayList<CafeDTO> arrayList, Context context) {
-        this.arrayList = arrayList;
-        this.context = context;
-    }
-
-    @NonNull
-    @Override
-    public ItemAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_row, parent, false);
-        ItemAdapter.CustomViewHolder holder = new ItemAdapter.CustomViewHolder(view);
-
-        return holder;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ItemAdapter.CustomViewHolder holder, int position) {
-        Glide.with(holder.itemView).load(arrayList.get(position).getImageUrl()).into(holder.search_image_view);
-        holder.search_text_view1.setText(arrayList.get(position).getCafeName());
-        holder.search_text_view2.setText(arrayList.get(position).getInfo());
-    }
-
-    @Override
-    public int getItemCount() {
-        // 삼항 연산자
-        return (arrayList !=null ? arrayList.size() : 0);
-    }
-
-    public class CustomViewHolder extends RecyclerView.ViewHolder {
-
-        TextView search_text_view1;
-        TextView search_text_view2;
-        ImageView search_image_view;
-
-        public CustomViewHolder(View itemView) {
-            super(itemView);
-            this.search_text_view1 = itemView.findViewById(R.id.search_text_view1);
-            this.search_text_view2 = itemView.findViewById(R.id.search_text_view2);
-            this.search_image_view = itemView.findViewById(R.id.search_image_view);
-
-        }
-    }
-}

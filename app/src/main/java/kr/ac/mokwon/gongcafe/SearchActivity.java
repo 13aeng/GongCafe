@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,8 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity {
-    private RecyclerView.Adapter adapter;
+public class SearchActivity extends AppCompatActivity implements ItemAdapter.onItemListener{
+    private ItemAdapter adapter;
     private ArrayList<CafeDTO> arrayList;
 
     @Override
@@ -30,12 +32,13 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search);
 
-        RecyclerView recyclerView = findViewById(R.id.search_recyclerView);
-        recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존성능 강화
+        RecyclerView search_recyclerView = findViewById(R.id.search_recyclerView);
+        search_recyclerView.setHasFixedSize(true); // 리사이클러뷰 기존성능 강화
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        arrayList = new ArrayList<>();
-
+        search_recyclerView.setLayoutManager(layoutManager);
+        arrayList = new ArrayList<>(); //샘플테이터
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL); //밑줄
+        search_recyclerView.addItemDecoration(dividerItemDecoration);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("images");
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -57,8 +60,11 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
         adapter = new ItemAdapter(arrayList, this);
-        recyclerView.setAdapter(adapter);
+        search_recyclerView.setAdapter(adapter);
+
+        adapter.setOnClickListener(this);
     }
+
 
     /****************************************************
      onCreateOptionsMenu SearchView  기능구현
@@ -91,8 +97,8 @@ public class SearchActivity extends AppCompatActivity {
     /****************************************************
      리사이클러뷰 클릭이벤트 인터페이스 구현
      ***************************************************/
-//    @Override
-//    public void onItemClicked(int position) {
-//        Toast.makeText(this, "" +position, Toast.LENGTH_SHORT).show();
-//    }
+    @Override
+    public void onItemClicked(int position) {
+      Toast.makeText(this, "" +position, Toast.LENGTH_SHORT).show();
+    }
 }

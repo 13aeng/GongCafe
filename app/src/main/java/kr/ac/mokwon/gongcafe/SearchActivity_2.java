@@ -29,12 +29,12 @@ public class SearchActivity_2 extends AppCompatActivity {
     }
 
     private void getData(){
-        if(getIntent().hasExtra("images") &&
-                getIntent().hasExtra("title") && getIntent().hasExtra("description"))
+        if/*(getIntent().hasExtra("images") ||*/
+        (getIntent().hasExtra("title") || getIntent().hasExtra("description"))
         {
             data1 = getIntent().getStringExtra("title");
             data2 = getIntent().getStringExtra("description");
-            myImage = getIntent().getIntExtra("images", 1);
+            /*myImage = getIntent().getIntExtra("images",1);*/
 
         } else{
             Toast.makeText(this,"No data", Toast.LENGTH_SHORT).show();
