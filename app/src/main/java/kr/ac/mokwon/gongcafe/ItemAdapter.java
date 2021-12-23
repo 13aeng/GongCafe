@@ -71,6 +71,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.CustomViewHold
                     intent.putExtra("images", arrayList.get(pos).getImageUrl());
                     intent.putExtra("title", arrayList.get(pos).getCafeName());
                     intent.putExtra("description", arrayList.get(pos).getInfo());
+                    intent.putExtra("address2",arrayList.get(pos).getAddress());
                     v.getContext().startActivity(intent);
 
                     //mListener.onItemClicked(item);
